@@ -5,13 +5,6 @@ const userRoute=express.Router()
 const jwt=require("jsonwebtoken")
 
 
-fetch("url/login",{
-    method:"POST",
-    header:{
-        "content-type":"applicaion/json"
-    },
-    body:JSON.stringify({password:"",email:""})
-})
 
 //User login
 userRoute.post("/login",async(req,res)=>{
