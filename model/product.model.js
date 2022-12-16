@@ -10,6 +10,7 @@ const productSchema=mongoose.Schema({
 
 })
 
+
 const Productmodel=mongoose.model("product",productSchema);
 
 

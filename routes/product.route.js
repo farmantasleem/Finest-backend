@@ -15,10 +15,21 @@ productRouter.get("/all",async(req,res)=>{
         }
 })
 
-//get product based on page || category || brand
+//get product based on pryage || catego || brand
+
+//query - multiple things filter
+
+//params - one filter
+
+//params - product/productid
+
+//url/search?page=1&category=bakery&brand=nivea
+
+//pagination .limit(9) skip()
+//page no=
 
 productRouter.get("/",async(req,res)=>{
-    const {page,category,brand}=req.query
+    const {page,category,brand}=req.query  //query 
     const toshow=(page-1)*9
     try{
         let product_data;
@@ -40,6 +51,8 @@ productRouter.get("/",async(req,res)=>{
 
 //get products based on search and apply filter based on q && page || category || brand
 
+//product?q=paneer 
+
 productRouter.get("/search",async(req,res)=>{
 
     const {q,page,category,brand}=req.query;
@@ -48,6 +61,7 @@ productRouter.get("/search",async(req,res)=>{
         try{
             let alldata;
           if(category&&brand){
+    
             alldata=await Productmodel.find({title: new RegExp(q,"i"),category,brand}).skip(showpage||0).limit(9)
           }else if(category){
             alldata=await Productmodel.find({title: new RegExp(q,"i"),category}).skip(showpage||0).limit(9)

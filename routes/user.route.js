@@ -4,6 +4,15 @@ const bcrypt=require("bcryptjs")
 const userRoute=express.Router()  
 const jwt=require("jsonwebtoken")
 
+
+fetch("url/login",{
+    method:"POST",
+    header:{
+        "content-type":"applicaion/json"
+    },
+    body:JSON.stringify({password:"",email:""})
+})
+
 //User login
 userRoute.post("/login",async(req,res)=>{
   const {email,password}=req.body;
@@ -11,9 +20,13 @@ userRoute.post("/login",async(req,res)=>{
         try{
             const userData=await Usermodel.findOne({email});
             if(userData?.name.length>0){
+                //user password
+                //hashed password
                 const isMatch=await bcrypt.compare(password,userData.password);
 
                 if(isMatch){
+
+                    //token 
                     const token=jwt.sign({"userid":userData._id},process.env.JWT)
                     res.status(200).send({msg:"Login Success",token:token})
 
@@ -34,6 +47,7 @@ userRoute.post("/login",async(req,res)=>{
   }
 })
 
+
 //Signup
 
 userRoute.post("/signup",async(req,res)=>{
@@ -42,7 +56,9 @@ userRoute.post("/signup",async(req,res)=>{
         try{   
             const hashed_password=await bcrypt.hash(password,12)
             const newUser=await Usermodel({...req.body,password:hashed_password})
+
             await newUser.save();
+
             res.status(200).send({"msg":"Signup Successfull"})
         }catch(err){
             res.status(500).send({msg:err.message})

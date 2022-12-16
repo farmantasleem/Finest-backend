@@ -10,7 +10,7 @@ const Authentication=async(req,res,next)=>{
             res.status(404).send({"msg":"token Exprired"})
         }
     }else{
-        res.status(404).send({"msg":"User is not Authenticated"})
+        res.status(404).send({"msg":"User is not Authenticated",token})
     }
 }
 
