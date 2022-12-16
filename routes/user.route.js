@@ -42,7 +42,7 @@ userRoute.post("/signup",async(req,res)=>{
         try{   
             const hashed_password=await bcrypt.hash(password,12)
             const newUser=await Usermodel({...req.body,password:hashed_password})
-            await newUser();
+            await newUser.save();
             res.status(200).send({"msg":"Signup Successfull"})
         }catch(err){
             res.status(500).send({msg:err.message})
