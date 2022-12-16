@@ -30,7 +30,7 @@ addressRoute.post("/",Authentication,async(req,res)=>{
 
     try
     {
-        const new_Address=await Addressmodel({user:userid,address:req.body.address})
+        const new_Address=await Addressmodel({...req.body,user:userid})
         await new_Address.save()
         res.status(200).send({"msg":"address saved"})
     }
