@@ -77,4 +77,20 @@ productRouter.get("/search",async(req,res)=>{
 })
 
 
+//get specific product
+
+productRouter.get("/:productid",async(req,res)=>{
+        const productid=req.params.productid
+        try{
+            const product=await Productmodel.findOne({_id:productid})
+            if(Object.keys(product).length>1){
+                res.status(200).send(product)
+            }else{
+                res.status(404).send({"msg":"Product not found"})
+            }
+        }catch(err){
+            res.status(404).send({"msg":err.message})
+        }
+})
+
 module.exports={productRouter}

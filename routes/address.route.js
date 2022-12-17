@@ -10,7 +10,7 @@ const addressRoute=express.Router();
 addressRoute.get("/",Authentication,async(req,res)=>{
     const userid=req.body.userid;
     try{
-        const address=await Addressmodel.findOne({user:user});
+        const address=await Addressmodel.findOne({user:userid});
         if(Object.keys(address).length>0){
             res.status(200).send(address)
         }else{
