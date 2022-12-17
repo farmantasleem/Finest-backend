@@ -29,18 +29,19 @@ productRouter.get("/all",async(req,res)=>{
 //page no=
 
 productRouter.get("/",async(req,res)=>{
-    const {page,category,brand}=req.query  //query 
+    const {page,category,brand,filter}=req.query  //query 
     const toshow=(page-1)*9
+    const sorting=filter||1
     try{
         let product_data;
      if(category&&brand){
-         product_data=await Productmodel.find({category,brand}).skip(toshow||0).limit(9)
+         product_data=await Productmodel.find({category,brand}).skip(toshow||0).limit(9).sort({cost:sorting})
      }else if(category){
-         product_data=await Productmodel.find({category}).skip(toshow||0).limit(9)
+         product_data=await Productmodel.find({category}).skip(toshow||0).limit(9).sort({cost:sorting})
      }else if(brand){
-         product_data=await Productmodel.find({brand}).skip(toshow||0).limit(9)
+         product_data=await Productmodel.find({brand}).skip(toshow||0).limit(9).sort({cost:sorting})
      }else{
-        product_data=await Productmodel.find().skip(toshow||0).limit(9)
+        product_data=await Productmodel.find().skip(toshow||0).limit(9).sort({cost:sorting})
      }
         
         res.status(200).send(product_data)
@@ -92,5 +93,10 @@ productRouter.get("/:productid",async(req,res)=>{
             res.status(404).send({"msg":err.message})
         }
 })
+
+//get filter 
+
+
+
 
 module.exports={productRouter}
