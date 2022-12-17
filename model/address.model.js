@@ -4,6 +4,7 @@ const addressSchema=mongoose.Schema({
     user:{type:mongoose.Types.ObjectId,ref:"user",required:true},
     fullname:{type:String,required:true},
     landmark:{type:String},
+    street:{type:String,required:true},
     city:{type:String,required:true},
     state:{type:String,required:true},
     zipcode:{type:Number,required:true},
