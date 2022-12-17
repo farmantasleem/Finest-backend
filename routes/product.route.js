@@ -58,7 +58,7 @@ productRouter.get("/search",async(req,res)=>{
 
     const {q,page,category,brand}=req.query;
 
-    const showpage=(page-1)*9
+     const showpage=(page-1)*9
         try{
             let alldata;
           if(category&&brand){

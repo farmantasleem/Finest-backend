@@ -39,4 +39,16 @@ addressRoute.post("/",Authentication,async(req,res)=>{
     }
 })
 
+//to update user
+
+addressRoute.patch("/",Authentication,async(req,res)=>{
+    const userid=req.body.userid;
+    try{
+       await Addressmodel.findOneAndUpdate({user:userid},{...req.body})
+       res.status(200).send({"msg":"Updated Successfully"})
+    }catch(err){
+        res.status(404).send({"msg":err.message})
+    }
+})
+
 module.exports={addressRoute}
