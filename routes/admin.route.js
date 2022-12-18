@@ -220,9 +220,10 @@ adminRoute.patch("/user/:userid2",Authentication,async(req,res)=>{
 
     try{
         const user=await Usermodel.findOne({_id:userid});
+        const seconduser=await Usermodel.findOne({_id:userid2})
         if(user?._id){
             if(user?.role=="admin"){
-                const update_role=user.role=="admin"?"user":"admin"
+                const update_role=seconduser.role=="admin"?"user":"admin"
                 await Usermodel.findOneAndUpdate({_id:userid2},{role:update_role})
                 res.status(200).send({msg:"He's Admin Now"})
             }else{
