@@ -45,6 +45,7 @@ userRoute.post("/login",async(req,res)=>{
 
 userRoute.post("/signup",async(req,res)=>{
     const {name,email,password}=req.body;
+
     if(name&&email&&password){
         try{   
             const hashed_password=await bcrypt.hash(password,12)
