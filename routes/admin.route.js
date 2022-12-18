@@ -191,7 +191,7 @@ adminRoute.delete("/product/:productid",Authentication,async(req,res)=>{
 
 //delete user
 
-adminRoute.delete("/product/:userid2",Authentication,async(req,res)=>{
+adminRoute.delete("/user/:userid2",Authentication,async(req,res)=>{
     const userid=req.body.userid
     const userid2=req.params.userid2
 
