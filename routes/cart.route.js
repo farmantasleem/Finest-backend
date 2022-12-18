@@ -49,17 +49,17 @@ cartRoute.delete("/:productid",Authentication,async(req,res)=>{
 
 // Updating Quantity
 
-cartRoute.patch("/:productid",Authentication,async(req,res)=>{
+cartRoute.patch("/:cartid",Authentication,async(req,res)=>{
     const userid=req.body.userid;
-    const productid=req.params.productid;
+    const cartitem=req.params.cartid;
     const qty=req.body.qty||1
 
     try{
-        const update_product=await Cartmodel.findOne({product:productid,user:userid});
-        
-           const Updated_version= await Cartmodel.findOneAndUpdate({product:productid,user:userid},{qty})
+     
+
+           const Updated_version= await Cartmodel.findOneAndUpdate({_id:cartitem},{qty})
             res.status(200).send({"msg":"Updated",Updated_version})
-       
+     
 
     }
     catch(err){
