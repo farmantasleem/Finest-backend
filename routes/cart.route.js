@@ -56,12 +56,10 @@ cartRoute.patch("/:productid",Authentication,async(req,res)=>{
 
     try{
         const update_product=await Cartmodel.findOne({product:productid,user:userid});
-        if(Object.keys(update_product).length>0){
+        
            const Updated_version= await Cartmodel.findOneAndUpdate({product:productid,user:userid},{qty})
             res.status(200).send({"msg":"Updated",Updated_version})
-        }else{
-            res.status(404).send({"msg":"Invalid Request"})
-        }
+       
 
     }
     catch(err){
