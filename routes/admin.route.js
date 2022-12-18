@@ -235,4 +235,27 @@ adminRoute.patch("/user/:userid2",Authentication,async(req,res)=>{
     }
 })
 
+
+//limited users
+
+adminRoute.get("/user/limit",Authentication,async(req,res)=>{
+    const userid=req.body.userid
+
+    try{
+        const user=await Usermodel.findOne({_id:userid});
+        if(user?._id){
+            if(user?.role=="admin"){
+                const alluser=await Usermodel.find().limit(6);
+                res.status(200).send(alluser)
+            }else{
+                res.status(404).send({"msg":"Not authenticated"})
+            }
+        }else{
+            res.status(404).send({"msg":"Not authenticated"})
+        }
+    }catch(err){
+        res.status(404).send({msg:err.message})
+    }
+})
+
 module.exports={adminRoute}
