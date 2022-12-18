@@ -1,5 +1,6 @@
 const express=require("express");
 const { Authentication } = require("../middleware/Authentication");
+const { Cartmodel } = require("../model/cart.model");
 const { Ordermodel } = require("../model/order.model");
 const { Productmodel } = require("../model/product.model");
 const { Usermodel } = require("../model/user.model");
@@ -28,6 +29,28 @@ adminRoute.get("/product/count",async(req,res)=>{
     }
 })
 
+
+//get count of all cart item
+
+adminRoute.get("/cart/count",async(req,res)=>{
+    const userid=req.body.userid
+
+    try{
+        const user=await Usermodel.findOne({_id:userid});
+        if(user?._id){
+            if(user?.role=="admin"){
+                const cartcount=await Cartmodel.countDocuments();
+                res.status(200).send({count:cartcount})
+            }else{
+                res.status(404).send({"msg":"Not authenticated"})
+            }
+        }else{
+            res.status(404).send({"msg":"Not authenticated"})
+        }
+    }catch(err){
+        res.status(404).send({msg:err.message})
+    }
+})
 //get count of orders
 
 adminRoute.get("/order/count",async(req,res)=>{
