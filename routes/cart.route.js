@@ -14,25 +14,27 @@ try{
     const exist=await Cartmodel.findOne({...req.body,user:userid})
     if(exist?._id!==undefined){
         res.status(404).send({msg:"Product already in cart"})
+    }else{
+        if(!Object.keys(exist).length>0){
+            try{
+       
+           const newItem=await Cartmodel({...req.body,user:userid})
+           await newItem.save();
+           res.status(200).send({"msg":"Successfully send"})
+       }
+       catch(err){
+           res.status(404).send({msg:err.message})
+       }
+           
+   
+       }else{
+           res.status(404).send({msg:"Product already in cart"})
+       }
     }
 }catch(err){
     res.status(404).send({msg:err.message})
 }
-    if(!Object.keys(exist).length>0){
-         try{
-    
-        const newItem=await Cartmodel({...req.body,user:userid})
-        await newItem.save();
-        res.status(200).send({"msg":"Successfully send"})
-    }
-    catch(err){
-        res.status(404).send({msg:err.message})
-    }
-        
-
-    }else{
-        res.status(404).send({msg:"Product already in cart"})
-    }
+  
 })
 
 // Getting cart item for specific user
