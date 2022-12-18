@@ -9,8 +9,9 @@ const cartRoute=express.Router();
 
 cartRoute.post("/",Authentication,async(req,res)=>{
     const userid=req.body.userid;
+   
 try{
-    const exist=await Cartmodel.findOne({user:userid,product:req.body.product})
+    const exist=await Cartmodel.findOne({...req.body,user:userid})
     if(exist?._id!==undefined){
         res.status(404).send({msg:"Product already in cart"})
     }
