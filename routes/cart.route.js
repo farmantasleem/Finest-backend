@@ -58,7 +58,7 @@ cartRoute.patch("/:productid",Authentication,async(req,res)=>{
         const update_product=await Cartmodel.findOne({product:productid,user:userid});
         if(Object.keys(update_product).length>0){
             await Cartmodel.findOneAndUpdate({product:productid,user:userid},{...update_product,qty})
-            res.status(200).send({"msg":"Updated"})
+            res.status(200).send({"msg":"Updated",qty})
         }else{
             res.status(404).send({"msg":"Invalid Request"})
         }
