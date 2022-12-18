@@ -222,7 +222,7 @@ adminRoute.patch("/user/:userid2",Authentication,async(req,res)=>{
         const user=await Usermodel.findOne({_id:userid});
         if(user?._id){
             if(user?.role=="admin"){
-                await Usermodel.findOneAndUpdate({_id:userid2},{role:"admin"})
+                await Usermodel.findOneAndUpdate({_id:userid2},{role:user.role=="admin"?"user":"admin"})
                 res.status(200).send({msg:"He's Admin Now"})
             }else{
                 res.status(404).send({"msg":"Not authenticated"})
