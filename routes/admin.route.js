@@ -142,17 +142,40 @@ adminRoute.get("/product/all",Authentication,async(req,res)=>{
     }
 })
 
-//get all orders
+//get all cart
 
-adminRoute.get("/order/all",Authentication,async(req,res)=>{
+adminRoute.get("/cart/all",Authentication,async(req,res)=>{
     const userid=req.body.userid
 
     try{
         const user=await Usermodel.findOne({_id:userid});
         if(user?._id){
             if(user?.role=="admin"){
-                const allorder=await Ordermodel.find();
+                const allorder=await Cartmodel.find();
                 res.status(200).send(allorder)
+            }else{
+                res.status(404).send({"msg":"Not authenticated"})
+            }
+        }else{
+            res.status(404).send({"msg":"Not authenticated"})
+        }
+    }catch(err){
+        res.status(404).send({msg:err.message})
+    }
+})
+
+
+//delete cart item
+adminRoute.delete("/cart/:productid",Authentication,async(req,res)=>{
+    const userid=req.body.userid
+    const productid=req.params.productid
+
+    try{
+        const user=await Usermodel.findOne({_id:userid});
+        if(user?._id){
+            if(user?.role=="admin"){
+                await Cartmodel.findOneAndDelete({_id:productid})
+                res.status(200).send({msg:"Delete Successfully"})
             }else{
                 res.status(404).send({"msg":"Not authenticated"})
             }
