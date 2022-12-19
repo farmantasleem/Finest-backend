@@ -148,10 +148,10 @@ adminRoute.get("/cart/all",Authentication,async(req,res)=>{
     const userid=req.body.userid
 
     try{
-        const user=await Usermodel.findOne({_id:userid}).populate("product").populate("user");
+        const user=await Usermodel.findOne({_id:userid})
         if(user?._id){
             if(user?.role=="admin"){
-                const allorder=await Cartmodel.find();
+                const allorder=await Cartmodel.find().populate("product").populate("user");;
                 res.status(200).send(allorder)
             }else{
                 res.status(404).send({"msg":"Not authenticated"})
